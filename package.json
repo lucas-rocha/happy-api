@@ -1,0 +1,7 @@
+{
+  "name": "happy-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Lucas Rocha <lucasrocha.dv@gmail.com>",
+  "license": "MIT"
+}
