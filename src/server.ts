@@ -1,3 +1,4 @@
+import { User } from '@controllers/User';
 import express from 'express';
 
 const app = express();
