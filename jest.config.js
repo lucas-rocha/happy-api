@@ -78,9 +78,12 @@ module.exports = {
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
+    '@src(.*)': '<rootDir>/src/$1',
     '@controllers/(.*)': '<rootDir>/src/controllers/$1',
     '@models/(.*)': '<rootDir>/src/models/$1',
-    '@views/(.*)': '<rootDir>/src/views/$1'
+    '@views/(.*)': '<rootDir>/src/views/$1',
+    '@services/(.*)': '<rootDir>/src/services/$1',
+    '@database/(.*)': '<rootDir>/src/database/$1'
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader

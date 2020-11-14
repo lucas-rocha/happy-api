@@ -21,6 +21,9 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
+      "@src/*": [
+        "./src/*"
+      ],
       "@controllers/*": [
         "./src/controllers/*"
       ],
@@ -28,10 +31,16 @@
         "./src/models/*"
       ],
       "@views/*": [
-        "./src/views"
+        "./src/views/*"
       ],
       "@config/*": [
-        "./src/config"
+        "./src/config/*"
+      ],
+      "@services/*": [
+        "./src/services/*"
+      ],
+      "@database/*": [
+        "./src/database/*"
       ]
     }
   },

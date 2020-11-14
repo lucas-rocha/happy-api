@@ -14,6 +14,10 @@ export class createUsers1604758926107 implements MigrationInterface {
           generationStrategy: 'increment'
         },
         {
+          name: 'name',
+          type: 'varchar'
+        },
+        {
           name: 'email',
           type: 'varchar'
         },
