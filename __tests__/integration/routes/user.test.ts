@@ -31,7 +31,7 @@ describe('When creating a new user', () => {
     const newUser = {
       name: 'Jhon',
       email: 'john@mail.com',
-      password: '123456'
+      password: '1234'
     }
     await request(app).post('/users').send(newUser)
     const response = await request(app).post('/users').send(newUser)
@@ -40,5 +40,36 @@ describe('When creating a new user', () => {
     expect(response.body).toEqual({
       message: 'User already exits'
     })
+  })
+})
+
+describe('When authenticating a user', () => {
+  it('should generate a token for a valid user', async () => {
+    const newUser = {
+      email: 'john@mail.com',
+      password: '1234'
+    }
+
+    const response = await request(app)
+      .post('/users/authenticate')
+      .send({
+        email: newUser.email,
+        password: newUser.password
+      })
+
+    expect(response.body).toEqual(
+      expect.objectContaining({ token: expect.any(String) })
+    )
+  })
+
+  it('should return unauthorized if the user with the given email is not found', async () => {
+    const response = await request(app)
+      .post('/users/authenticate')
+      .send({
+        email: 'some-email@mail.com',
+        password: '1234'
+      })
+
+    expect(response.status).toBe(401)
   })
 })
