@@ -2,6 +2,8 @@ import { Request, Response } from 'express'
 import User from '@models/User'
 import { getRepository } from 'typeorm'
 import AuthService from '@services/auth.service'
+import crypto from 'crypto'
+import { transporter } from '@config/mail'
 
 export default {
   async create(req: Request, res: Response) {
@@ -49,6 +51,38 @@ export default {
     } catch (err) {
       return res.status(500).json({ message: err.message })
     }
+  },
+
+  async forgetPassword(req: Request, res: Response) {
+    const { email } = req.body
+
+    const userRepository = getRepository(User)
+    const user = await userRepository.findOne({ email })
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found!' })
+    }
+
+    const token = crypto.randomBytes(20).toString('hex')
+    const now = new Date()
+    now.setHours(now.getHours() + 1)
+
+    user.reset_password_token = token
+    user.reset_password_date_expires = now
+
+    await userRepository.save(user)
+
+    transporter.sendMail({
+      from: 'some-email@mail.com',
+      to: email,
+      subject: 'password recovery',
+      html: `<p>Did you forget your password? Please reset by clicking the link below: </p>
+        <a href=${'example.com' + '/forget_password/' + token}>Click here!</a>`
+    }, (err) => {
+      if (err) return res.status(401).json({ message: 'It was not possible to send the email.' })
+
+      res.status(200).json({ message: 'E-mail sent successfully.' })
+    })
   }
 
 }

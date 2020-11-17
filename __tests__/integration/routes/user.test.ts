@@ -73,3 +73,28 @@ describe('When authenticating a user', () => {
     expect(response.status).toBe(401)
   })
 })
+
+describe('When forget password', () => {
+  it('should sent a e-mail for recovery password', async () => {
+    const email = 'john@mail.com'
+    const response = await request(app)
+      .post('/users/forget_password')
+      .send({
+        email
+      })
+
+    expect(response.body).toEqual({
+      message: 'E-mail sent successfully.'
+    })
+  })
+
+  it('should return an error if e-mail doesn\'t exits', async () => {
+    const response = await request(app)
+      .post('/users/forget_password')
+      .send({
+        email: 'some-email@mail.com'
+      })
+
+    expect(response.status).toBe(401)
+  })
+})
