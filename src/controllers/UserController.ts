@@ -110,6 +110,30 @@ export default {
     } catch (err) {
       return res.json({ message: err.message })
     }
+  },
+
+  async resetPassword(req: Request, res: Response) {
+    const { token } = req.params
+    const { email, password } = req.body
+
+    if (!token) {
+      return res.status(400).json({ message: 'No token provided.' })
+    }
+
+    const userRepository = getRepository(User)
+    const user = await userRepository.findOne({ email })
+
+    if (!user) {
+      return res.status(400).json({ message: 'User not found.' })
+    }
+
+    user.reset_password_token = ''
+
+    user.password = await AuthService.hashPassword(password)
+
+    await userRepository.save(user)
+
+    res.status(202).json({ message: 'Password changed successfully.' })
   }
 
 }
