@@ -83,6 +83,33 @@ export default {
 
       res.status(200).json({ message: 'E-mail sent successfully.' })
     })
+  },
+
+  async verifyForgetPasswordToken(req: Request, res: Response) {
+    const { token } = req.params
+
+    if (!token) {
+      return res.status(400).json({ message: 'No token provided.' })
+    }
+
+    try {
+      const usersRepository = getRepository(User)
+      const user = await usersRepository.findOne({ reset_password_token: token })
+
+      if (!user) {
+        return res.status(400).json({ message: 'Token incorrect.' })
+      }
+
+      const now = new Date()
+      const reset_password_date = new Date(user.reset_password_date_expires)
+      if (reset_password_date < now) {
+        res.status(400).json({ message: 'Token has expired.' })
+      }
+
+      return res.status(200).json({ email: user.email })
+    } catch (err) {
+      return res.json({ message: err.message })
+    }
   }
 
 }
