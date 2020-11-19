@@ -17,7 +17,7 @@ export default class AuthService {
   }
 
   public static generateToken(payload: object): string {
-    return jwt.sign(payload, 'abcd', {
+    return jwt.sign(payload, process.env.SECRET, {
       expiresIn: '1h'
     })
   }
