@@ -13,6 +13,10 @@ export class createOrphanages1604762072248 implements MigrationInterface {
           isGenerated: true
         },
         {
+          name: 'name',
+          type: 'varchar'
+        },
+        {
           name: 'latitude',
           type: 'varchar'
         },

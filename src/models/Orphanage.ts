@@ -7,6 +7,9 @@ export default class Orphanage {
   id: number;
 
   @Column()
+  name: string;
+
+  @Column()
   latitude: string;
 
   @Column()
