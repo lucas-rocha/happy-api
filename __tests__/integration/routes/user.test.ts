@@ -1,7 +1,7 @@
 import AuthService from '@services/auth.service'
 import request from 'supertest'
 import DBconnection from '@database/connection'
-import app from '@src/server'
+import app from '@src/app'
 
 beforeAll(async () => {
   await DBconnection()
