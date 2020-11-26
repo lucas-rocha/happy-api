@@ -20,4 +20,7 @@ routes.post('/users/forget_password/:token', UserController.resetPassword)
 // Orphanage Create
 routes.post('/orphanages', upload.array('images'), OrphanagesController.create)
 
+// Orphanage List
+routes.get('/orphanages', OrphanagesController.index)
+
 export default routes
