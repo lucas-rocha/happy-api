@@ -70,5 +70,23 @@ export default {
     } catch (err) {
       return res.status(500).json({ message: err.message })
     }
+  },
+  async delete(req: Request, res: Response) {
+    const { id } = req.params
+    const orphanage_id = Number(id)
+
+    const orphanagesRepository = getRepository(Orphanage)
+    const orphanage = await orphanagesRepository.findOne(
+      { id: orphanage_id },
+      { relations: ['images'] }
+    )
+
+    if (!orphanage) {
+      return res.status(400).json({ message: 'Orphanage not found.' })
+    }
+
+    await orphanagesRepository.delete({ id: orphanage_id })
+
+    return res.status(200).json({ message: 'Orphanage deleted.' })
   }
 }

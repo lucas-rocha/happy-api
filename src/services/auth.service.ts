@@ -21,4 +21,8 @@ export default class AuthService {
       expiresIn: '1h'
     })
   }
+
+  public static verifyToken(token, cb) {
+    return jwt.verify(token, process.env.SECRET, {}, cb)
+  }
 }

@@ -6,6 +6,8 @@ import OrphanagesController from '@controllers/OrphanagesController'
 
 import uploadConfig from '@config/upload'
 
+import { isAuthenticate } from '@src/middlewares/isAuthenticate'
+
 const routes = Router()
 const upload = multer(uploadConfig)
 
@@ -24,5 +26,8 @@ routes.post('/orphanages', upload.array('images'), OrphanagesController.create)
 routes.get('/orphanages', OrphanagesController.index)
 routes.get('/orphanages/pendents', OrphanagesController.findUnChecked)
 routes.get('/orphanages/:id', OrphanagesController.show)
+
+// Private Routes
+routes.delete('/orphanages/:id', isAuthenticate, OrphanagesController.delete)
 
 export default routes
