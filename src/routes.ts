@@ -28,6 +28,15 @@ routes.get('/orphanages/pendents', OrphanagesController.findUnChecked)
 routes.get('/orphanages/:id', OrphanagesController.show)
 
 // Private Routes
-routes.delete('/orphanages/:id', isAuthenticate, OrphanagesController.delete)
+routes.put(
+  '/orphanages',
+  [isAuthenticate, upload.array('images')],
+  OrphanagesController.update
+)
+routes.delete(
+  '/orphanages/:id',
+  isAuthenticate,
+  OrphanagesController.delete
+)
 
 export default routes

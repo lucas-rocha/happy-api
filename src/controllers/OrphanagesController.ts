@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import Orphanage from '@models/Orphanage'
+import Image from '@models/Image'
 import { getRepository } from 'typeorm'
 import OrphanagesView from '@views/OrphanagesView'
 
@@ -70,6 +71,62 @@ export default {
     } catch (err) {
       return res.status(500).json({ message: err.message })
     }
+  },
+  async update(req: Request, res: Response) {
+    const {
+      id,
+      name,
+      latitude,
+      longitude,
+      about,
+      instructions,
+      opening_hours,
+      open_on_weekends,
+      is_check,
+      image_key
+    } = req.body
+
+    const orphanagesRepository = getRepository(Orphanage)
+    const imagesRepository = getRepository(Image)
+
+    if (image_key) {
+      const images_key = Array.isArray(image_key)
+        ? image_key
+        : Array(image_key)
+
+      images_key.forEach(async (image) => {
+        await imagesRepository.delete({ key: image })
+      })
+    }
+
+    const requestImages = req.files as Express.Multer.File[]
+    if (requestImages) {
+      requestImages.forEach(async (image) => {
+        const img = imagesRepository.create({
+          path: image.path,
+          key: image.filename,
+          orphanage: id
+        })
+
+        await imagesRepository.save(img)
+      })
+    }
+
+    await orphanagesRepository.update(
+      { id },
+      {
+        name,
+        latitude,
+        longitude,
+        about,
+        instructions,
+        opening_hours,
+        open_on_weekends: open_on_weekends === 'true',
+        is_check: is_check === 'true'
+      }
+    )
+
+    return res.status(204).json({ message: 'Orphanage updated successfully.' })
   },
   async delete(req: Request, res: Response) {
     const { id } = req.params
