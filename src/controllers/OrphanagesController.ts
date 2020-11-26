@@ -24,6 +24,17 @@ export default {
 
     res.status(200).json(OrphanagesView.render(orphanage))
   },
+  async findUnChecked(req: Request, res: Response) {
+    const orphanagesRepository = getRepository(Orphanage)
+    const orphanages = await orphanagesRepository.find({
+      where: {
+        is_check: false
+      },
+      relations: ['images']
+    })
+
+    res.status(200).json(OrphanagesView.renderMany(orphanages))
+  },
   async create(req: Request, res: Response) {
     const {
       name,

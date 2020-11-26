@@ -22,6 +22,7 @@ routes.post('/orphanages', upload.array('images'), OrphanagesController.create)
 
 // Orphanage List
 routes.get('/orphanages', OrphanagesController.index)
+routes.get('/orphanages/pendents', OrphanagesController.findUnChecked)
 routes.get('/orphanages/:id', OrphanagesController.show)
 
 export default routes
