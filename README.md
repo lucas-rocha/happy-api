@@ -23,12 +23,8 @@ Clone este repositório e rode <b>npm install</b> para instalar todas as depend�
 
 ## Uso
 
-<b>`yarn build`</b> - Build para produção.
-
-<b>`yarn start`</b> - Roda a aplicação.
-
-<b>`yarn dev`</b> - Roda em a aplicação em modo de desenvolvimento.
-
-<b>`yarn test`</b> - Roda os testes de integração.
-
-<b>`yarn typeorm`</b> - Comandos de CLI do typeorm.
+<b>`yarn build`</b> - Build para produção.</br>
+<b>`yarn start`</b> - Roda a aplicação.</br>
+<b>`yarn dev`</b> - Roda em a aplicação em modo de desenvolvimento.</br>
+<b>`yarn test`</b> - Roda os testes de integração.</br>
+<b>`yarn typeorm`</b> - Comandos de CLI do typeorm.</br>
